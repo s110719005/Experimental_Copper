@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     private float speed;
     [SerializeField]
     private GameObject hammer;
+    [SerializeField]
+    private CopperManager copperManager;
     private bool canUseHammer = true;
     private Vector3 originPosition;
 
@@ -50,6 +52,10 @@ public class PlayerMovement : MonoBehaviour
 
 			if (j.GetButton(Joycon.Button.DPAD_RIGHT))
             {
+                if(copperManager)
+                {
+                    copperManager.ResetCoppers();
+                }
                 transform.position = originPosition;
 			} 
         }
