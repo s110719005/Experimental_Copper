@@ -40,7 +40,7 @@ public class Copper : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.R))
         {
-            ResetShape();
+            Reset();
         }
     }
 
@@ -114,11 +114,16 @@ public class Copper : MonoBehaviour
         this.transform.DOScaleZ(newScale.z, 1);
     }
 
-    private void ResetShape()
+    public void Reset()
     {
-        this.transform.DOScaleX(originScale.y, 1);
+        this.transform.DOScaleX(originScale.x, 1);
         this.transform.DOScaleY(originScale.y, 1);
         this.transform.DOScaleZ(originScale.z, 1);
         this.transform.position = originPosition;
+        if(!isForeverCharged)
+        {
+            isTempCharged = false;
+            SetUnCharged();
+        }
     }
 }

@@ -11,9 +11,25 @@ public class PlayerMovement : MonoBehaviour
     private float speed;
     [SerializeField]
     private GameObject hammer;
+    [SerializeField]
+    private CopperManager copperManager;
     private bool canUseHammer = true;
+    private Vector3 originPosition;
+
+    //JOYCON
+    private List<Joycon> joycons;
+    private Vector3 accel;
+   private int jc_ind = 0;
     void Start()
     {
+        originPosition = transform.position;
+        accel = new Vector3(0, 0, 0);
+        // get the public Joycon array attached to the JoyconManager in scene
+        joycons = JoyconManager.Instance.j;
+		if (joycons.Count < jc_ind+1)
+        {
+			Destroy(gameObject);
+		}
         
     }
 
@@ -23,14 +39,44 @@ public class PlayerMovement : MonoBehaviour
         {
             UseHammer();
         }
+        if (joycons.Count > 0)
+        {
+			Joycon j = joycons [jc_ind];
+
+            accel = j.GetAccel();
+            if(accel.y >= 5 && canUseHammer)
+            {
+                UseHammer();
+                j.SetRumble (160, 320, 0.6f, 200);
+            }
+
+			if (j.GetButton(Joycon.Button.DPAD_RIGHT))
+            {
+                if(copperManager)
+                {
+                    copperManager.ResetCoppers();
+                }
+                transform.position = originPosition;
+			} 
+        }
     }
 
     void FixedUpdate()
     {
         if(_rigidbody)
         {
-            Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            _rigidbody.MovePosition(transform.position + m_Input * Time.deltaTime * speed);
+            if (joycons.Count > 0)
+            {
+                Joycon j = joycons [jc_ind];
+                Vector3 m_Input = new Vector3(j.GetStick()[0], 0, j.GetStick()[1]);
+                _rigidbody.MovePosition(transform.position + m_Input * Time.deltaTime * speed);
+            }
+            else
+            {
+                Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+                _rigidbody.MovePosition(transform.position + m_Input * Time.deltaTime * speed);
+            }
+            
             
         }
     }
