@@ -19,17 +19,18 @@ public class PlayerMovement : MonoBehaviour
     //JOYCON
     private List<Joycon> joycons;
     private Vector3 accel;
-   private int jc_ind = 0;
+    private int jc_ind = 0;
+    private Copper handCopper = null;
+
+    private Copper interactCopper = null;
+
+    private CopperPlaceSpot interactPlacement = null;
     void Start()
     {
         originPosition = transform.position;
         accel = new Vector3(0, 0, 0);
         // get the public Joycon array attached to the JoyconManager in scene
         joycons = JoyconManager.Instance.j;
-		if (joycons.Count < jc_ind+1)
-        {
-			Destroy(gameObject);
-		}
         
     }
 
@@ -38,6 +39,11 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.F) && canUseHammer)
         {
             UseHammer();
+        }
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            if(handCopper && interactPlacement) { PlaceCopper(interactPlacement); }
+            if(!handCopper && interactCopper) { PickUpCopper(interactCopper); }
         }
         if (joycons.Count > 0)
         {
@@ -50,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
                 j.SetRumble (160, 320, 0.6f, 200);
             }
 
-			if (j.GetButton(Joycon.Button.DPAD_RIGHT))
+			if (j.GetButton(Joycon.Button.DPAD_DOWN))
             {
                 if(copperManager)
                 {
@@ -58,6 +64,11 @@ public class PlayerMovement : MonoBehaviour
                 }
                 transform.position = originPosition;
 			} 
+			if (j.GetButton(Joycon.Button.DPAD_RIGHT))
+            {
+                if(handCopper && interactPlacement) { PlaceCopper(interactPlacement); }
+                if(!handCopper && interactCopper) { PickUpCopper(interactCopper); }
+            }
         }
     }
 
@@ -81,6 +92,53 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other) 
+    {
+        if(other.gameObject.TryGetComponent<Copper>(out Copper copper))
+        {
+            interactCopper = copper;
+        }
+        if(other.gameObject.TryGetComponent<CopperPlaceSpot>(out CopperPlaceSpot copperPlaceSpot))
+        {
+            interactPlacement = copperPlaceSpot;
+        }
+    }
+    private void OnTriggerExit(Collider other) 
+    {
+        if(other.gameObject.TryGetComponent<Copper>(out Copper copper))
+        {
+            interactCopper = null;
+        }
+        if(other.gameObject.TryGetComponent<CopperPlaceSpot>(out CopperPlaceSpot copperPlaceSpot))
+        {
+            interactPlacement = null;
+        }
+    }
+
+    private void PickUpCopper(Copper copper)
+    {
+        if(copper.IsPlaced) { return; }
+        handCopper = copper;
+        copper.Picked();
+        copper.transform.SetParent(transform);
+        Debug.Log("Pick");
+        interactCopper = null;
+
+    }
+
+    private void PlaceCopper(CopperPlaceSpot placement)
+    {
+        if(handCopper && !placement.IsFull)
+        {
+            placement.SetFull();
+            handCopper.Placed();
+            handCopper.transform.position = new Vector3(placement.transform.position.x, handCopper.transform.position.y, placement.transform.position.z);
+            handCopper.transform.eulerAngles = placement.transform.eulerAngles;
+            handCopper = null;
+            Debug.Log("PLACED");
+        }
+    }
+
     private void UseHammer()
     {
         HammerAnimation();
@@ -91,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 endRotation = new Vector3(90, 0, 0);
         DG.Tweening.Sequence hammerAnimationSequence = DOTween.Sequence();
         hammerAnimationSequence.Append(hammer.transform.DORotate(endRotation, 0.2f).SetEase(Ease.InCubic)).
-                         Append(hammer.transform.DORotate(Vector3.zero, 0.3f).SetEase(Ease.OutCubic));
+                                Append(hammer.transform.DORotate(Vector3.zero, 0.3f).SetEase(Ease.OutCubic));
         hammerAnimationSequence.AppendCallback(() => { canUseHammer = true; });
     }
 }
