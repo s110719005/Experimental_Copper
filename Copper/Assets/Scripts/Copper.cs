@@ -14,6 +14,8 @@ public class Copper : MonoBehaviour
     private bool canStretch = true;
     [SerializeField]
     private bool isForeverCharged = false;
+    [SerializeField]
+    private bool isGoal = false;
     public bool IsForeverCharged => isForeverCharged;
     private bool isTempCharged = false;
     private bool IsTempCharged => isTempCharged;
@@ -91,6 +93,10 @@ public class Copper : MonoBehaviour
             isTempCharged = true;
             SetCharged();
             motherCharger = copper;
+            if(isGoal)
+            {
+                GameCore.Instance.EndGame();
+            }
         }
     }
 
