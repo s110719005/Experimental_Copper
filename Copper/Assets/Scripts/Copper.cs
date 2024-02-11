@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 public class Copper : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class Copper : MonoBehaviour
     private bool isForeverCharged = false;
     [SerializeField]
     private bool isGoal = false;
+    [SerializeField]
+    private BoxCollider boxCollider;
     public bool IsForeverCharged => isForeverCharged;
     private bool isTempCharged = false;
     private bool IsTempCharged => isTempCharged;
@@ -25,12 +28,20 @@ public class Copper : MonoBehaviour
     [SerializeField]
     private Renderer _renderer;
     private Color originColor;
+
+    private bool isPicked;
+
+    private bool isPlaced;
+    public bool IsPlaced => isPlaced;
+
+    private Rigidbody _rigidbody;
     // Start is called before the first frame update
     void Start()
     {
         originScale = this.transform.localScale;
         originPosition = this.transform.position;
         originColor = _renderer.material.color;
+        _rigidbody = GetComponent<Rigidbody>();
         if(isForeverCharged)
         {
             SetCharged();
@@ -44,6 +55,24 @@ public class Copper : MonoBehaviour
         {
             Reset();
         }
+    }
+
+    public void Picked()
+    {
+        if(isPicked) { return; }
+        if(isPlaced) { return; }
+        _rigidbody.isKinematic = true;
+        boxCollider.enabled = false;
+        isPicked = true;
+    }
+
+    public void Placed()
+    {
+        transform.SetParent(null);
+        _rigidbody.isKinematic = false;
+        boxCollider.enabled = true;
+        isPicked = false;
+        isPlaced = true;
     }
 
     
@@ -112,6 +141,7 @@ public class Copper : MonoBehaviour
     private void Extend()
     {
         if(!canStretch) { return; }
+        if(!isPlaced) { return; }
         Vector3 newScale = this.transform.localScale;
         newScale = new Vector3(newScale.x * stretchSpeed.x, newScale.y * stretchSpeed.y, newScale.z * stretchSpeed.z);
         if(newScale.y <= 0.02f) { return; }
@@ -131,5 +161,8 @@ public class Copper : MonoBehaviour
             isTempCharged = false;
             SetUnCharged();
         }
+        transform.SetParent(null);
+        isPicked = false;
+        isPlaced = false;
     }
 }

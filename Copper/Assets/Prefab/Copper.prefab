@@ -121,7 +121,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stretchSpeed: {x: 1.1, y: 0.7, z: 1.5}
+  canStretch: 1
   isForeverCharged: 0
+  isGoal: 0
+  boxCollider: {fileID: 2324286760044659817}
   _renderer: {fileID: 7587119721116862137}
 --- !u!54 &1621733281135426342
 Rigidbody:
