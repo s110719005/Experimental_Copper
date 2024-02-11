@@ -8,11 +8,31 @@ public class Copper : MonoBehaviour
     
     private Vector3 originScale;
     private Vector3 originPosition;
+    [SerializeField]
+    private Vector3 stretchSpeed;
+    [SerializeField]
+    private bool canStretch = true;
+    [SerializeField]
+    private bool isForeverCharged = false;
+    public bool IsForeverCharged => isForeverCharged;
+    private bool isTempCharged = false;
+    private bool IsTempCharged => isTempCharged;
+
+    private Copper motherCharger;
+
+    [SerializeField]
+    private Renderer _renderer;
+    private Color originColor;
     // Start is called before the first frame update
     void Start()
     {
         originScale = this.transform.localScale;
         originPosition = this.transform.position;
+        originColor = _renderer.material.color;
+        if(isForeverCharged)
+        {
+            SetCharged();
+        }
     }
 
     // Update is called once per frame
@@ -31,12 +51,63 @@ public class Copper : MonoBehaviour
         {
             Extend();
         }
+        if(other.gameObject.TryGetComponent<Copper>(out Copper copper))
+        {
+            CheckCharge(copper);
+        }
+    }
+
+    private void OnTriggerExit(Collider other) 
+    {
+        if(!isForeverCharged)
+        {
+            if(other.gameObject.TryGetComponent<Copper>(out Copper copper))
+            {
+                if(motherCharger == copper)
+                {
+                    isTempCharged = false;
+                    SetUnCharged();
+                    motherCharger = null;
+                }
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other) 
+    {
+        if(!isForeverCharged && !isTempCharged)
+        {
+            if(other.gameObject.TryGetComponent<Copper>(out Copper copper))
+            {
+                CheckCharge(copper);
+            }
+        }
+    }
+
+    private void CheckCharge(Copper copper)
+    {
+        if(copper.IsForeverCharged || copper.IsTempCharged)
+        {
+            isTempCharged = true;
+            SetCharged();
+            motherCharger = copper;
+        }
+    }
+
+    private void SetCharged()
+    {
+        _renderer.material.color = Color.blue;
+    }
+    private void SetUnCharged()
+    {
+        _renderer.material.color = originColor;
     }
 
     private void Extend()
     {
+        if(!canStretch) { return; }
         Vector3 newScale = this.transform.localScale;
-        newScale = new Vector3(newScale.x * 1.05f, newScale.y * 0.8f, newScale.z * 1.2f);
+        newScale = new Vector3(newScale.x * stretchSpeed.x, newScale.y * stretchSpeed.y, newScale.z * stretchSpeed.z);
         if(newScale.y <= 0.02f) { return; }
         this.transform.DOScaleX(newScale.x, 1);
         this.transform.DOScaleY(newScale.y, 1);
