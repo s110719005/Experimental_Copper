@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     private GameObject hammer;
     [SerializeField]
     private CopperManager copperManager;
+    [SerializeField]
+    private AudioSource audioSource;
     private bool canUseHammer = true;
     private Vector3 originPosition;
 
@@ -142,6 +144,7 @@ public class PlayerMovement : MonoBehaviour
     private void UseHammer()
     {
         HammerAnimation();
+        audioSource.Play();
     }
     private void HammerAnimation()
     {
