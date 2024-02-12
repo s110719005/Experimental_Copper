@@ -31,6 +31,7 @@ public class Copper : MonoBehaviour
 
     private bool isPicked;
 
+    [SerializeField]
     private bool isPlaced;
     public bool IsPlaced => isPlaced;
 
@@ -64,6 +65,7 @@ public class Copper : MonoBehaviour
         _rigidbody.isKinematic = true;
         boxCollider.enabled = false;
         isPicked = true;
+        _renderer.material.color = Color.yellow;
     }
 
     public void Placed()
@@ -73,6 +75,7 @@ public class Copper : MonoBehaviour
         boxCollider.enabled = true;
         isPicked = false;
         isPlaced = true;
+        _renderer.material.color = originColor;
     }
 
     
