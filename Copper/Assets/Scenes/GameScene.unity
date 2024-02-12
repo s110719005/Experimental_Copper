@@ -1054,6 +1054,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6883741137230601872, guid: 845cf6df7b6ab8f4085b0e0514b5f8f9, type: 3}
+      propertyPath: isPlaced
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6883741137230601872, guid: 845cf6df7b6ab8f4085b0e0514b5f8f9, type: 3}
       propertyPath: canStretch
       value: 0
       objectReference: {fileID: 0}
@@ -1293,32 +1297,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d1c9f1fb50981147a591bcab4784180, type: 3}
---- !u!1 &1222265076 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2397377779444745502, guid: 1b06814d8071728408d37a819d71a2d3, type: 3}
-  m_PrefabInstance: {fileID: 1769662925}
-  m_PrefabAsset: {fileID: 0}
---- !u!135 &1222265083
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1222265076}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 2.31
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1307681481
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1654,10 +1632,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2397377779444745502, guid: 1b06814d8071728408d37a819d71a2d3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1222265083}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b06814d8071728408d37a819d71a2d3, type: 3}
 --- !u!1001 &1805803618
 PrefabInstance:
@@ -1813,52 +1788,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2575868043889313896, guid: 845cf6df7b6ab8f4085b0e0514b5f8f9, type: 3}
   m_PrefabInstance: {fileID: 1805803618}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2066650525
-GameObject:
+--- !u!1001 &3642782298937555669
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2066650527}
-  - component: {fileID: 2066650528}
-  m_Layer: 0
-  m_Name: joyconManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2066650527
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2066650525}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.3863325, y: 0.8942056, z: 47.28264}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2066650528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2066650525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e394dd1f003c84840a480d9b4aee0cf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnableIMU: 1
-  EnableLocalize: 1
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 231731693579174494, guid: 2646cde45380e334e99b9a07f0e7c17d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10.3863325
+      objectReference: {fileID: 0}
+    - target: {fileID: 231731693579174494, guid: 2646cde45380e334e99b9a07f0e7c17d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.8942056
+      objectReference: {fileID: 0}
+    - target: {fileID: 231731693579174494, guid: 2646cde45380e334e99b9a07f0e7c17d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 47.28264
+      objectReference: {fileID: 0}
+    - target: {fileID: 231731693579174494, guid: 2646cde45380e334e99b9a07f0e7c17d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 231731693579174494, guid: 2646cde45380e334e99b9a07f0e7c17d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 231731693579174494, guid: 2646cde45380e334e99b9a07f0e7c17d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 231731693579174494, guid: 2646cde45380e334e99b9a07f0e7c17d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 231731693579174494, guid: 2646cde45380e334e99b9a07f0e7c17d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 231731693579174494, guid: 2646cde45380e334e99b9a07f0e7c17d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 231731693579174494, guid: 2646cde45380e334e99b9a07f0e7c17d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943980829885567544, guid: 2646cde45380e334e99b9a07f0e7c17d, type: 3}
+      propertyPath: m_Name
+      value: JoyconManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2646cde45380e334e99b9a07f0e7c17d, type: 3}
 --- !u!1001 &6532637433520156123
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1986,7 +1972,7 @@ SceneRoots:
   - {fileID: 403043915}
   - {fileID: 1769662925}
   - {fileID: 993912720}
-  - {fileID: 2066650527}
+  - {fileID: 3642782298937555669}
   - {fileID: 516010050}
   - {fileID: 7167430803757436107}
   - {fileID: 6532637433520156123}
