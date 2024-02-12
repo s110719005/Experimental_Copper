@@ -100,4 +100,12 @@ public class JoyconManager: MonoBehaviour
 			j[i].Detach ();
 		}
     }
+
+	private void OnDisable() 
+	{
+		for (int i = 0; i < j.Count; ++i)
+		{
+			j[i].Detach ();
+		}
+	}
 }
